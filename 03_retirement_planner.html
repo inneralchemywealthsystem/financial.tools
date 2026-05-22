@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Retirement Fund Planner — Financial Awareness</title>
+<style>
+  :root {
+    --navy: #1B3A6B; --gold: #D4A017; --purple: #7C3AED;
+    --green: #059669; --teal: #0E7490; --orange: #EA580C;
+    --bg: #F4F7FC; --white: #ffffff;
+    --text: #1E293B; --muted: #64748B;
+    --border: #E2E8F0; --card-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); }
+
+  .header { background: linear-gradient(135deg, var(--navy) 0%, #1B4F72 100%); color: white; padding: 1.5rem 1rem; text-align: center; }
+  .header h1 { font-size: 1.4rem; font-weight: 700; }
+  .header p { font-size: 0.85rem; opacity: 0.82; margin-top: 0.3rem; }
+  .badge { display: inline-block; background: var(--gold); color: #5a3b00; font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 0.5rem; letter-spacing: 0.5px; text-transform: uppercase; }
+
+  .container { max-width: 680px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+
+  .card { background: var(--white); border-radius: 16px; box-shadow: var(--card-shadow); padding: 1.5rem; margin-bottom: 1rem; border: 1px solid var(--border); }
+  .card-title { font-size: 0.82rem; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.7px; margin-bottom: 1rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--border); }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.8rem; }
+  .form-row.triple { grid-template-columns: 1fr 1fr 1fr; }
+  .form-row.single { grid-template-columns: 1fr; }
+  .field label { display: block; font-size: 0.76rem; font-weight: 700; color: var(--muted); margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.4px; }
+  .field input, .field select { width: 100%; padding: 0.6rem 0.85rem; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.92rem; color: var(--text); background: var(--white); outline: none; transition: border-color 0.15s; }
+  .field input:focus, .field select:focus { border-color: var(--navy); }
+  .field .hint { font-size: 0.72rem; color: var(--muted); margin-top: 0.25rem; }
+
+  .slider-section { margin-bottom: 0.9rem; }
+  .slider-section .slider-header { display: flex; justify-content: space-between; font-size: 0.78rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 0.4rem; }
+  .slider-section .slider-header .slider-val { color: var(--navy); font-size: 0.9rem; }
+  input[type=range] { width: 100%; accent-color: var(--navy); }
+
+  .checkbox-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .checkbox-item { display: flex; align-items: center; gap: 0.6rem; padding: 0.5rem 0.75rem; border: 1.5px solid var(--border); border-radius: 8px; cursor: pointer; transition: all 0.15s; }
+  .checkbox-item:hover { border-color: var(--navy); background: #F0F4FF; }
+  .checkbox-item input[type=checkbox] { accent-color: var(--navy); width: 16px; height: 16px; flex-shrink: 0; cursor: pointer; }
+  .checkbox-item label { font-size: 0.88rem; color: var(--text); cursor: pointer; }
+  .checkbox-item .tag { margin-left: auto; font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 10px; background: #EEF2FF; color: #3730A3; flex-shrink: 0; }
+
+  .btn-calc { width: 100%; padding: 0.9rem; background: var(--navy); color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; transition: all 0.18s; margin-top: 0.5rem; }
+  .btn-calc:hover { background: #142e58; }
+  .btn-calc:active { transform: scale(0.99); }
+
+  /* Results */
+  .results-panel { display: none; }
+
+  .corpus-banner { background: linear-gradient(135deg, var(--navy), #2D5F9E); border-radius: 18px; padding: 1.8rem 1.5rem; text-align: center; color: white; margin-bottom: 1rem; }
+  .corpus-banner .banner-label { font-size: 0.85rem; opacity: 0.82; margin-bottom: 0.3rem; font-weight: 600; letter-spacing: 0.3px; }
+  .corpus-banner .corpus-amount { font-size: 2.6rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 0.1rem; }
+  .corpus-banner .corpus-sub { font-size: 0.8rem; opacity: 0.75; }
+
+  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
+  .stat-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 0.9rem; text-align: center; }
+  .stat-label { font-size: 0.68rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 0.35rem; }
+  .stat-value { font-size: 1.15rem; font-weight: 800; color: var(--navy); }
+  .stat-sub { font-size: 0.68rem; color: var(--muted); margin-top: 0.15rem; }
+
+  .result-card { background: var(--white); border-radius: 14px; box-shadow: var(--card-shadow); padding: 1.2rem; margin-bottom: 0.75rem; border: 1px solid var(--border); }
+  .result-card h3 { font-size: 0.82rem; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 0.9rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--border); }
+
+  .plan-row { display: flex; justify-content: space-between; align-items: center; padding: 0.45rem 0; border-bottom: 1px solid var(--border); font-size: 0.87rem; }
+  .plan-row:last-child { border-bottom: none; font-weight: 700; font-size: 0.95rem; color: var(--navy); }
+  .plan-row span:first-child { color: var(--muted); }
+
+  .sip-box { background: linear-gradient(135deg, #059669, #10B981); border-radius: 14px; padding: 1.2rem; text-align: center; color: white; margin-bottom: 0.75rem; }
+  .sip-box .sip-label { font-size: 0.82rem; opacity: 0.9; margin-bottom: 0.2rem; font-weight: 600; }
+  .sip-box .sip-amount { font-size: 2.4rem; font-weight: 800; }
+  .sip-box .sip-note { font-size: 0.78rem; opacity: 0.85; margin-top: 0.3rem; }
+
+  .inv-recs { list-style: none; }
+  .inv-recs li { display: flex; align-items: flex-start; gap: 0.7rem; padding: 0.55rem 0; border-bottom: 1px solid var(--border); font-size: 0.87rem; line-height: 1.45; }
+  .inv-recs li:last-child { border-bottom: none; }
+  .inv-tag { font-size: 0.68rem; font-weight: 700; padding: 2px 7px; border-radius: 8px; flex-shrink: 0; margin-top: 2px; }
+  .tag-primary { background: #DBEAFE; color: #1D4ED8; }
+  .tag-tax { background: #D1FAE5; color: #065F46; }
+  .tag-safe { background: #FEF3C7; color: #92400E; }
+
+  .milestone-track { position: relative; padding: 0.5rem 0; }
+  .milestone { display: flex; align-items: center; gap: 0.75rem; padding: 0.5rem 0; }
+  .m-dot { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; flex-shrink: 0; color: white; }
+  .m-content { flex: 1; }
+  .m-content .m-title { font-size: 0.88rem; font-weight: 700; color: var(--text); }
+  .m-content .m-detail { font-size: 0.78rem; color: var(--muted); margin-top: 0.1rem; }
+  .m-connector { width: 2px; height: 20px; background: var(--border); margin-left: 15px; }
+
+  .submitted-badge { background: #D1FAE5; border: 1px solid #6EE7B7; border-radius: 10px; padding: 0.7rem 1rem; font-size: 0.83rem; color: #065F46; font-weight: 600; text-align: center; margin-bottom: 1rem; display: none; }
+  .disclaimer { background: #EEF2FF; border: 1px solid #C7D2FE; border-radius: 10px; padding: 0.9rem 1rem; font-size: 0.77rem; color: #3730A3; line-height: 1.5; margin-top: 0.75rem; }
+  .share-row { display: flex; gap: 0.75rem; margin-top: 1rem; }
+  .btn-share { flex: 1; padding: 0.65rem; border: 1.5px solid var(--navy); border-radius: 10px; background: transparent; color: var(--navy); font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .btn-share:hover { background: var(--navy); color: white; }
+  @media (max-width: 480px) { .form-row, .form-row.triple, .stats-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="badge">Self-Assessment Tool 3 of 3</div>
+  <h1>Retirement Fund Planner</h1>
+  <p>Calculate your retirement corpus and the monthly SIP you need to start today</p>
+</div>
+
+<div class="container">
+  <div id="form-panel">
+
+    <div class="card">
+      <div class="card-title">Your Personal Details</div>
+      <div class="form-row">
+        <div class="field"><label>Full Name *</label><input type="text" id="name" placeholder="e.g. Sunita Verma" required></div>
+        <div class="field"><label>Mobile Number *</label><input type="tel" id="mobile" placeholder="10-digit number" required></div>
+      </div>
+      <div class="form-row">
+        <div class="field"><label>School / Institution</label><input type="text" id="school" placeholder="e.g. St. Mary's School"></div>
+        <div class="field"><label>City</label><input type="text" id="city" placeholder="e.g. Lucknow"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Your Financial Snapshot</div>
+      <div class="form-row">
+        <div class="field"><label>Current Age *</label><input type="number" id="curr-age" placeholder="e.g. 35" min="22" max="58" required></div>
+        <div class="field"><label>Expected Retirement Age</label><input type="number" id="ret-age" placeholder="e.g. 60" min="50" max="70" value="60"></div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Monthly Take-Home Salary (₹)</label>
+          <input type="number" id="salary" placeholder="e.g. 50000" required>
+          <div class="hint">Your in-hand salary after all deductions</div>
+        </div>
+        <div class="field">
+          <label>Current Monthly Expenses (₹)</label>
+          <input type="number" id="expenses" placeholder="e.g. 35000">
+          <div class="hint">Total household expenses per month</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="field">
+          <label>Current Savings / Investments (₹)</label>
+          <input type="number" id="existing-savings" placeholder="e.g. 200000">
+          <div class="hint">Total existing FDs, PPF, MFs, etc.</div>
+        </div>
+        <div class="field">
+          <label>Expected Pension (₹/month)</label>
+          <input type="number" id="pension" placeholder="e.g. 15000" value="0">
+          <div class="hint">Government/school pension if any</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Retirement Lifestyle Expectation</div>
+      <div class="form-row single">
+        <div class="field">
+          <label>What % of current expenses do you expect in retirement?</label>
+          <select id="expense-pct">
+            <option value="70">70% — Simple lifestyle, minimal travel</option>
+            <option value="80" selected>80% — Comfortable lifestyle (Recommended)</option>
+            <option value="90">90% — Same lifestyle as today</option>
+            <option value="100">100% — Same or upgraded lifestyle</option>
+          </select>
+          <div class="hint">Most retirees need about 70-80% of pre-retirement expenses</div>
+        </div>
+      </div>
+      <div class="form-row single">
+        <div class="field">
+          <label>Expected life expectancy (till what age to plan for)</label>
+          <select id="life-exp">
+            <option value="75">75 years</option>
+            <option value="80" selected>80 years (recommended)</option>
+            <option value="85">85 years</option>
+            <option value="90">90 years (conservative planning)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Adjust Assumptions</div>
+      <div class="slider-section">
+        <div class="slider-header"><span>Inflation Rate</span><span class="slider-val" id="infl-val">7%</span></div>
+        <input type="range" id="infl-slider" min="4" max="10" value="7" step="1" oninput="document.getElementById('infl-val').textContent=this.value+'%'">
+      </div>
+      <div class="slider-section">
+        <div class="slider-header"><span>Expected Return on Investments</span><span class="slider-val" id="ret-val">12%</span></div>
+        <input type="range" id="ret-slider" min="6" max="18" value="12" step="1" oninput="document.getElementById('ret-val').textContent=this.value+'%'">
+      </div>
+      <div class="slider-section">
+        <div class="slider-header"><span>Return during retirement (post-retirement)</span><span class="slider-val" id="post-val">7%</span></div>
+        <input type="range" id="post-slider" min="4" max="10" value="7" step="1" oninput="document.getElementById('post-val').textContent=this.value+'%'">
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Additional Goals (select all that apply)</div>
+      <div class="checkbox-group">
+        <label class="checkbox-item"><input type="checkbox" id="goal-home"> <label>Own a home / pay off home loan before retirement</label> <span class="tag">Home</span></label>
+        <label class="checkbox-item"><input type="checkbox" id="goal-health"> <label>Build a dedicated health emergency fund of ₹10 lakhs</label> <span class="tag">Health</span></label>
+        <label class="checkbox-item"><input type="checkbox" id="goal-travel"> <label>Travel fund — India & abroad pilgrimages after retirement (₹5 lakhs)</label> <span class="tag">Travel</span></label>
+        <label class="checkbox-item"><input type="checkbox" id="goal-wedding"> <label>Children's wedding expenses (₹10 lakhs estimated)</label> <span class="tag">Family</span></label>
+      </div>
+    </div>
+
+    <button class="btn-calc" onclick="calculate()">Calculate My Retirement Plan →</button>
+  </div>
+
+  <!-- RESULTS PANEL -->
+  <div class="results-panel" id="results-panel">
+    <div class="submitted-badge" id="submitted-badge">✓ Your retirement plan has been saved to your advisor's records!</div>
+
+    <div class="corpus-banner">
+      <div class="banner-label">Total Retirement Corpus You Need</div>
+      <div class="corpus-amount" id="corpus-display"></div>
+      <div class="corpus-sub" id="corpus-sub"></div>
+    </div>
+
+    <div class="stats-grid" id="stats-grid"></div>
+
+    <div class="sip-box" id="sip-box"></div>
+
+    <div class="result-card">
+      <h3>Detailed Calculation Breakdown</h3>
+      <div id="plan-rows"></div>
+    </div>
+
+    <div class="result-card">
+      <h3>Your Retirement Milestone Timeline</h3>
+      <div class="milestone-track" id="milestones"></div>
+    </div>
+
+    <div class="result-card">
+      <h3>Recommended Investment Strategy</h3>
+      <ul class="inv-recs" id="inv-recs"></ul>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Disclaimer:</strong> This planner provides estimates based on the assumptions entered. Actual returns, inflation, and expenses may vary significantly. This is for awareness and educational purposes only. Please consult a SEBI-registered financial advisor before making investment decisions.
+    </div>
+    <div class="share-row">
+      <button class="btn-share" onclick="window.print()">Print / Save as PDF</button>
+      <button class="btn-share" onclick="location.reload()">Recalculate</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz3CmcuwilVuifbZIvLYlCrgMgfxhUlHZgoJZ6gL-_-5HUAhgVathCZu8-M8b-uUHJbbg/exec";
+
+  function fmt(n) { return '₹' + Math.round(n).toLocaleString('en-IN'); }
+
+  function sipRequired(fv, rateAnnual, months) {
+    if (months <= 0) return fv;
+    const r = rateAnnual / 100 / 12;
+    return fv * r / (Math.pow(1 + r, months) - 1);
+  }
+
+  function corpusRequired(monthlyExpRetirement, retirementYears, postRetRate, monthlyPension) {
+    const monthlyGap = Math.max(0, monthlyExpRetirement - monthlyPension);
+    const r = postRetRate / 100 / 12;
+    const n = retirementYears * 12;
+    if (r === 0) return monthlyGap * n;
+    return monthlyGap * (1 - Math.pow(1 + r, -n)) / r;
+  }
+
+  async function calculate() {
+    const name = document.getElementById('name').value.trim();
+    const mobile = document.getElementById('mobile').value.trim();
+    const currAge = parseInt(document.getElementById('curr-age').value) || 35;
+    const retAge = parseInt(document.getElementById('ret-age').value) || 60;
+    const salary = parseInt(document.getElementById('salary').value) || 50000;
+    const expenses = parseInt(document.getElementById('expenses').value) || Math.round(salary * 0.7);
+    const existingSavings = parseInt(document.getElementById('existing-savings').value) || 0;
+    const pension = parseInt(document.getElementById('pension').value) || 0;
+    const expPct = parseInt(document.getElementById('expense-pct').value) / 100;
+    const lifeExp = parseInt(document.getElementById('life-exp').value);
+    const inflRate = parseInt(document.getElementById('infl-slider').value);
+    const retRate = parseInt(document.getElementById('ret-slider').value);
+    const postRate = parseInt(document.getElementById('post-slider').value);
+
+    if (!name || !mobile) { alert('Please fill your Name and Mobile Number.'); return; }
+
+    const yearsToRetirement = Math.max(1, retAge - currAge);
+    const retirementYears = Math.max(1, lifeExp - retAge);
+
+    // Future monthly expenses at retirement
+    const futureMonthlyExp = expenses * expPct * Math.pow(1 + inflRate/100, yearsToRetirement);
+    const futurePension = pension * Math.pow(1 + inflRate/100/2, yearsToRetirement);
+
+    // Additional goals
+    let goalCorpus = 0;
+    if (document.getElementById('goal-health').checked) goalCorpus += 1000000 * Math.pow(1 + inflRate/100, yearsToRetirement);
+    if (document.getElementById('goal-travel').checked) goalCorpus += 500000 * Math.pow(1 + inflRate/100, yearsToRetirement);
+    if (document.getElementById('goal-wedding').checked) goalCorpus += 1000000 * Math.pow(1 + inflRate/100, yearsToRetirement/2);
+
+    // Corpus needed for post-retirement income
+    const incomeCorpus = corpusRequired(futureMonthlyExp, retirementYears, postRate, futurePension);
+    const totalCorpus = incomeCorpus + goalCorpus;
+
+    // Existing savings grown to retirement
+    const existingGrown = existingSavings * Math.pow(1 + retRate/100, yearsToRetirement);
+    const remainingCorpus = Math.max(0, totalCorpus - existingGrown);
+
+    // SIP needed
+    const sipNeeded = sipRequired(remainingCorpus, retRate, yearsToRetirement * 12);
+
+    // Send to Google Sheets
+    const data = {
+      tool: 'Retirement Fund Planner',
+      timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+      name, mobile,
+      school: document.getElementById('school').value,
+      city: document.getElementById('city').value,
+      currentAge: currAge, retirementAge: retAge,
+      salary, monthlyExpenses: expenses, existingSavings, pension,
+      inflationRate: inflRate + '%', returnRate: retRate + '%',
+      totalCorpusNeeded: Math.round(totalCorpus),
+      sipRequired: Math.round(sipNeeded),
+      goalsSelected: ['goal-health','goal-travel','goal-wedding','goal-home']
+        .filter(g => document.getElementById(g).checked).join(', ')
+    };
+
+    try {
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST', mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      document.getElementById('submitted-badge').style.display = 'block';
+    } catch(e) {}
+
+    // Render results
+    document.getElementById('form-panel').style.display = 'none';
+    const rp = document.getElementById('results-panel');
+    rp.style.display = 'block';
+
+    document.getElementById('corpus-display').textContent = fmt(totalCorpus);
+    document.getElementById('corpus-sub').textContent =
+      `To sustain your lifestyle from age ${retAge} to ${lifeExp} (${retirementYears} years)`;
+
+    document.getElementById('stats-grid').innerHTML = `
+      <div class="stat-card"><div class="stat-label">Years to Retire</div><div class="stat-value">${yearsToRetirement}</div><div class="stat-sub">years remaining</div></div>
+      <div class="stat-card"><div class="stat-label">Monthly Need</div><div class="stat-value" style="font-size:0.95rem">${fmt(futureMonthlyExp)}</div><div class="stat-sub">at retirement</div></div>
+      <div class="stat-card"><div class="stat-label">SIP Required</div><div class="stat-value" style="font-size:0.95rem">${fmt(sipNeeded)}</div><div class="stat-sub">per month</div></div>
+    `;
+
+    document.getElementById('sip-box').innerHTML = `
+      <div class="sip-label">Start this SIP Today to Retire Comfortably</div>
+      <div class="sip-amount">${fmt(sipNeeded)}<span style="font-size:1rem;opacity:0.85">/month</span></div>
+      <div class="sip-note">Invest systematically for ${yearsToRetirement} years at expected ${retRate}% return</div>
+    `;
+
+    document.getElementById('plan-rows').innerHTML = [
+      ['Current Monthly Expenses', fmt(expenses)],
+      [`Future Monthly Expenses at Retirement (@${inflRate}% inflation)`, fmt(futureMonthlyExp)],
+      ['Expected Monthly Pension', fmt(futurePension)],
+      ['Monthly Corpus Drawdown Needed', fmt(Math.max(0, futureMonthlyExp - futurePension))],
+      [`Corpus Needed for Retirement Income (${retirementYears} years)`, fmt(incomeCorpus)],
+      ['Corpus for Additional Goals', fmt(goalCorpus)],
+      ['Total Corpus Required', fmt(totalCorpus)],
+      [`Existing Savings Grown to Retirement (@${retRate}%)`, fmt(existingGrown)],
+      ['Additional Corpus to Build via SIP', fmt(remainingCorpus)],
+      [`Monthly SIP Required (@${retRate}% for ${yearsToRetirement} years)`, fmt(sipNeeded) + '/month'],
+    ].map((r, i) => `<div class="plan-row"><span>${r[0]}</span><span>${r[1]}</span></div>`).join('');
+
+    const milestoneData = [
+      { age: currAge, label: 'Start Now', detail: `Begin SIP of ${fmt(sipNeeded)}/month immediately`, color: '#059669' },
+      { age: Math.round(currAge + yearsToRetirement * 0.33), label: '⅓ Mark', detail: `Step up SIP by 10% each year. Review portfolio.`, color: '#0E7490' },
+      { age: Math.round(currAge + yearsToRetirement * 0.67), label: '⅔ Mark', detail: `Shift 20% to safer debt funds. Keep SIP going.`, color: '#7C3AED' },
+      { age: retAge, label: 'Retirement', detail: `Corpus target: ${fmt(totalCorpus)}. Switch to SWP.`, color: '#1B3A6B' },
+    ];
+
+    document.getElementById('milestones').innerHTML = milestoneData.map((m, i) =>
+      `<div class="milestone">
+        <div class="m-dot" style="background:${m.color}">${m.age}</div>
+        <div class="m-content">
+          <div class="m-title">${m.label}</div>
+          <div class="m-detail">${m.detail}</div>
+        </div>
+      </div>${i < milestoneData.length-1 ? '<div class="m-connector"></div>' : ''}`
+    ).join('');
+
+    const expPctInt = Math.round(expPct * 100);
+    const sipSalaryPct = Math.round(sipNeeded / salary * 100);
+    const recs = [
+      { tag: 'Primary', cls: 'tag-primary', text: `Invest ${fmt(sipNeeded)}/month (${sipSalaryPct}% of salary) in Equity Mutual Funds via SIP — diversify across Large Cap, Flexi Cap and Mid Cap funds` },
+      { tag: 'Tax-Save', cls: 'tag-tax', text: `Maximise NPS Tier 1 contribution — get 80CCD(1B) deduction of ₹50,000 extra beyond 80C limit. NPS is perfect for retirement corpus.` },
+      { tag: 'Tax-Save', cls: 'tag-tax', text: `Invest up to ₹1.5 lakh/year in PPF — guaranteed 7.1% tax-free returns, perfect for the conservative portion of your retirement fund.` },
+      { tag: 'Safety', cls: 'tag-safe', text: `Ensure Term Life Insurance of at least 10-15x annual income and Health Insurance of ₹10+ lakhs for the whole family.` },
+      { tag: 'Primary', cls: 'tag-primary', text: `Step up your SIP by 10% every year alongside your salary hike. This one habit can nearly double your final corpus.` },
+      { tag: 'Safety', cls: 'tag-safe', text: `5-7 years before retirement, gradually shift equity holdings to balanced/debt funds to protect your corpus from market volatility.` },
+    ];
+    document.getElementById('inv-recs').innerHTML = recs.map(r =>
+      `<li><span class="inv-tag ${r.cls}">${r.tag}</span>${r.text}</li>`
+    ).join('');
+
+    rp.scrollIntoView({ behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>

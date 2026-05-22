@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Investor Risk Profile Quiz — Financial Awareness</title>
+<style>
+  :root {
+    --navy: #1B3A6B; --gold: #D4A017; --teal: #0E7490;
+    --green: #059669; --orange: #EA580C; --red: #DC2626;
+    --bg: #F4F7FC; --white: #ffffff;
+    --text: #1E293B; --muted: #64748B;
+    --border: #E2E8F0; --card-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+  .header { background: var(--navy); color: white; padding: 1.5rem 1rem; text-align: center; }
+  .header h1 { font-size: 1.4rem; font-weight: 700; letter-spacing: 0.3px; }
+  .header p { font-size: 0.85rem; opacity: 0.75; margin-top: 0.3rem; }
+  .badge { display: inline-block; background: var(--gold); color: #5a3b00; font-size: 0.7rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 0.5rem; letter-spacing: 0.5px; text-transform: uppercase; }
+
+  .container { max-width: 680px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+
+  .progress-bar { background: var(--border); border-radius: 8px; height: 6px; margin-bottom: 1.5rem; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--teal); border-radius: 8px; transition: width 0.4s ease; }
+  .progress-label { font-size: 0.78rem; color: var(--muted); text-align: right; margin-bottom: 0.4rem; }
+
+  .question-card { background: var(--white); border-radius: 16px; box-shadow: var(--card-shadow); padding: 1.5rem; margin-bottom: 1rem; border: 1px solid var(--border); }
+  .q-num { font-size: 0.72rem; font-weight: 700; color: var(--teal); text-transform: uppercase; letter-spacing: 0.8px; margin-bottom: 0.5rem; }
+  .q-text { font-size: 1rem; font-weight: 600; color: var(--text); margin-bottom: 1.1rem; line-height: 1.5; }
+
+  .option { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; border: 1.5px solid var(--border); border-radius: 10px; margin-bottom: 0.5rem; cursor: pointer; transition: all 0.18s ease; }
+  .option:hover { border-color: var(--teal); background: #F0FAFB; }
+  .option.selected { border-color: var(--teal); background: #E0F5F9; }
+  .option input[type=radio] { accent-color: var(--teal); width: 18px; height: 18px; flex-shrink: 0; cursor: pointer; }
+  .option label { font-size: 0.92rem; color: var(--text); cursor: pointer; line-height: 1.4; }
+  .opt-badge { font-size: 0.7rem; font-weight: 700; padding: 2px 8px; border-radius: 12px; flex-shrink: 0; margin-left: auto; }
+  .opt-c { background: #DBEAFE; color: #1E40AF; }
+  .opt-m { background: #FEF3C7; color: #92400E; }
+  .opt-a { background: #D1FAE5; color: #065F46; }
+
+  .info-section { background: #EFF6FF; border: 1px solid #BFDBFE; border-radius: 12px; padding: 1rem 1.2rem; margin-bottom: 1.5rem; }
+  .info-section h3 { font-size: 0.85rem; font-weight: 700; color: #1D4ED8; margin-bottom: 0.4rem; }
+  .info-section p { font-size: 0.82rem; color: #3B82F6; line-height: 1.5; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+  .form-row.single { grid-template-columns: 1fr; }
+  .field label { display: block; font-size: 0.78rem; font-weight: 600; color: var(--muted); margin-bottom: 0.3rem; text-transform: uppercase; letter-spacing: 0.4px; }
+  .field input, .field select { width: 100%; padding: 0.6rem 0.85rem; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.9rem; color: var(--text); background: var(--white); outline: none; transition: border-color 0.15s; }
+  .field input:focus, .field select:focus { border-color: var(--teal); }
+
+  .btn-submit { width: 100%; padding: 0.9rem; background: var(--navy); color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 700; cursor: pointer; letter-spacing: 0.3px; transition: background 0.2s, transform 0.1s; margin-top: 0.5rem; }
+  .btn-submit:hover { background: #142e58; }
+  .btn-submit:active { transform: scale(0.99); }
+  .btn-submit:disabled { background: var(--muted); cursor: not-allowed; }
+
+  /* RESULTS */
+  .result-screen { display: none; }
+  .result-hero { border-radius: 18px; padding: 2rem 1.5rem; text-align: center; margin-bottom: 1.5rem; }
+  .result-hero.conservative { background: linear-gradient(135deg, #1D4ED8, #2563EB); }
+  .result-hero.moderate { background: linear-gradient(135deg, #D97706, #F59E0B); }
+  .result-hero.aggressive { background: linear-gradient(135deg, #059669, #10B981); }
+  .result-hero h2 { color: white; font-size: 1.7rem; font-weight: 800; margin-bottom: 0.4rem; }
+  .result-hero .score-circle { width: 80px; height: 80px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 2rem; font-weight: 800; color: white; border: 3px solid rgba(255,255,255,0.5); }
+  .result-hero p { color: rgba(255,255,255,0.88); font-size: 0.92rem; line-height: 1.6; max-width: 420px; margin: 0 auto; }
+
+  .result-section { background: var(--white); border-radius: 14px; box-shadow: var(--card-shadow); padding: 1.25rem; margin-bottom: 1rem; border: 1px solid var(--border); }
+  .result-section h3 { font-size: 0.85rem; font-weight: 700; color: var(--navy); text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 1rem; padding-bottom: 0.6rem; border-bottom: 2px solid var(--border); }
+
+  .allocation-bar { margin-bottom: 0.8rem; }
+  .alloc-label { display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 0.3rem; }
+  .alloc-label span:first-child { font-weight: 600; color: var(--text); }
+  .alloc-label span:last-child { color: var(--muted); }
+  .bar-track { background: var(--border); border-radius: 6px; height: 10px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 6px; }
+
+  .rec-list { list-style: none; }
+  .rec-list li { padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; display: flex; align-items: flex-start; gap: 0.5rem; line-height: 1.5; }
+  .rec-list li:last-child { border-bottom: none; }
+  .rec-list li::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+  .disclaimer { background: #FFF7ED; border: 1px solid #FED7AA; border-radius: 10px; padding: 0.9rem 1rem; margin-top: 1.2rem; font-size: 0.77rem; color: #92400E; line-height: 1.5; }
+
+  .submitted-badge { background: #D1FAE5; border: 1px solid #6EE7B7; border-radius: 10px; padding: 0.7rem 1rem; font-size: 0.83rem; color: #065F46; font-weight: 600; text-align: center; margin-bottom: 1rem; display: none; }
+
+  .share-row { display: flex; gap: 0.75rem; margin-top: 1rem; }
+  .btn-share { flex: 1; padding: 0.65rem; border: 1.5px solid var(--navy); border-radius: 10px; background: transparent; color: var(--navy); font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .btn-share:hover { background: var(--navy); color: white; }
+
+  @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } .share-row { flex-direction: column; } }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="badge">Self-Assessment Tool 1 of 3</div>
+  <h1>Investor Risk Profile Quiz</h1>
+  <p>Identify your investment personality &amp; get personalised recommendations</p>
+</div>
+
+<div class="container">
+
+  <!-- QUIZ FORM -->
+  <div id="quiz-screen">
+    <div class="info-section">
+      <h3>How this works</h3>
+      <p>Answer 5 honest questions about your financial attitude. You'll instantly see your Investor Profile and get tailored investment recommendations. Your response is also saved for your advisor's reference.</p>
+    </div>
+
+    <!-- Personal Info -->
+    <div class="question-card">
+      <div class="q-num">Your Details</div>
+      <div class="q-text">Tell us a little about yourself</div>
+      <div class="form-row">
+        <div class="field"><label>Full Name *</label><input type="text" id="name" placeholder="e.g. Priya Sharma" required></div>
+        <div class="field"><label>School / Institution</label><input type="text" id="school" placeholder="e.g. DPS Noida"></div>
+      </div>
+      <div class="form-row">
+        <div class="field"><label>Mobile Number *</label><input type="tel" id="mobile" placeholder="10-digit number" required></div>
+        <div class="field"><label>Age</label><input type="number" id="age" placeholder="e.g. 35" min="22" max="60"></div>
+      </div>
+      <div class="form-row single">
+        <div class="field"><label>Monthly Salary (₹)</label><input type="number" id="salary" placeholder="e.g. 45000"></div>
+      </div>
+    </div>
+
+    <!-- Q1 -->
+    <div class="question-card">
+      <div class="q-num">Question 1 of 5</div>
+      <div class="q-text">If your investment drops 20% in value within a month, what would you do?</div>
+      <label class="option" id="opt-1a"><input type="radio" name="q1" value="C"> <label for="opt-1a">I would panic and sell everything immediately — I cannot bear losses</label> <span class="opt-badge opt-c">Conservative</span></label>
+      <label class="option" id="opt-1b"><input type="radio" name="q1" value="M"> <label for="opt-1b">I would wait and watch — markets usually recover over time</label> <span class="opt-badge opt-m">Moderate</span></label>
+      <label class="option" id="opt-1c"><input type="radio" name="q1" value="A"> <label for="opt-1c">I would invest more money while the price is low — great opportunity!</label> <span class="opt-badge opt-a">Aggressive</span></label>
+    </div>
+
+    <!-- Q2 -->
+    <div class="question-card">
+      <div class="q-num">Question 2 of 5</div>
+      <div class="q-text">What is your investment time horizon (how long can you stay invested without needing the money)?</div>
+      <label class="option"><input type="radio" name="q2" value="C"> <label>Less than 3 years — I may need the money soon</label> <span class="opt-badge opt-c">Short-term</span></label>
+      <label class="option"><input type="radio" name="q2" value="M"> <label>3 to 7 years — medium-term planning</label> <span class="opt-badge opt-m">Medium-term</span></label>
+      <label class="option"><input type="radio" name="q2" value="A"> <label>More than 7 years — this is for retirement or long-term goals</label> <span class="opt-badge opt-a">Long-term</span></label>
+    </div>
+
+    <!-- Q3 -->
+    <div class="question-card">
+      <div class="q-num">Question 3 of 5</div>
+      <div class="q-text">What is your PRIMARY financial goal?</div>
+      <label class="option"><input type="radio" name="q3" value="C"> <label>Capital protection — keeping my money safe is most important</label> <span class="opt-badge opt-c">Safety</span></label>
+      <label class="option"><input type="radio" name="q3" value="M"> <label>Balanced growth — reasonable returns with moderate risk</label> <span class="opt-badge opt-m">Balanced</span></label>
+      <label class="option"><input type="radio" name="q3" value="A"> <label>Maximum returns — I am willing to take higher risk for higher growth</label> <span class="opt-badge opt-a">Growth</span></label>
+    </div>
+
+    <!-- Q4 -->
+    <div class="question-card">
+      <div class="q-num">Question 4 of 5</div>
+      <div class="q-text">How many financial dependents do you have (spouse, children, elderly parents)?</div>
+      <label class="option"><input type="radio" name="q4" value="C"> <label>Many dependents — spouse + children + parents all depend on me</label> <span class="opt-badge opt-c">High Responsibility</span></label>
+      <label class="option"><input type="radio" name="q4" value="M"> <label>A few dependents — spouse and/or children only</label> <span class="opt-badge opt-m">Moderate</span></label>
+      <label class="option"><input type="radio" name="q4" value="A"> <label>None or very minimal financial dependents</label> <span class="opt-badge opt-a">Independent</span></label>
+    </div>
+
+    <!-- Q5 -->
+    <div class="question-card">
+      <div class="q-num">Question 5 of 5</div>
+      <div class="q-text">How stable and predictable is your income?</div>
+      <label class="option"><input type="radio" name="q5" value="C"> <label>Very stable — I have a fixed government/school salary with no other income</label> <span class="opt-badge opt-c">Stable</span></label>
+      <label class="option"><input type="radio" name="q5" value="M"> <label>Stable with some additional income occasionally (tuition, part-time)</label> <span class="opt-badge opt-m">Moderate</span></label>
+      <label class="option"><input type="radio" name="q5" value="A"> <label>Multiple income streams — my income is growing significantly each year</label> <span class="opt-badge opt-a">Growing</span></label>
+    </div>
+
+    <div class="progress-label" id="progress-label">0 of 5 questions answered</div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+
+    <button class="btn-submit" id="submit-btn" onclick="submitQuiz()" disabled>
+      See My Investor Profile →
+    </button>
+  </div>
+
+  <!-- RESULTS SCREEN -->
+  <div class="result-screen" id="result-screen">
+    <div class="submitted-badge" id="submitted-badge">✓ Your responses have been saved successfully!</div>
+
+    <div class="result-hero" id="result-hero">
+      <div class="score-circle" id="score-circle"></div>
+      <h2 id="result-title"></h2>
+      <p id="result-desc"></p>
+    </div>
+
+    <div class="result-section">
+      <h3>Recommended Portfolio Allocation</h3>
+      <div id="allocation-bars"></div>
+    </div>
+
+    <div class="result-section">
+      <h3>Recommended Investment Tools for You</h3>
+      <ul class="rec-list" id="rec-list"></ul>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Disclaimer:</strong> This quiz is for educational and awareness purposes only. The risk profile and recommendations are indicative and based on general principles. Please consult your financial advisor before making any investment decisions. Mutual Fund investments are subject to market risks.
+    </div>
+
+    <div class="share-row">
+      <button class="btn-share" onclick="window.print()">Print / Save as PDF</button>
+      <button class="btn-share" onclick="location.reload()">Retake Quiz</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz3CmcuwilVuifbZIvLYlCrgMgfxhUlHZgoJZ6gL-_-5HUAhgVathCZu8-M8b-uUHJbbg/exec";
+
+  const profiles = {
+    C: {
+      label: "Conservative Investor",
+      emoji: "🛡️",
+      heroClass: "conservative",
+      desc: "You prioritise the safety of your capital above everything else. Your primary concern is protecting what you have saved, rather than aggressive growth. This is a very common and wise approach, especially with dependents.",
+      allocation: [
+        { label: "Fixed Deposits & Savings", pct: 40, color: "#1D4ED8" },
+        { label: "PPF / NPS (Government Schemes)", pct: 30, color: "#2563EB" },
+        { label: "Life & Health Insurance", pct: 20, color: "#3B82F6" },
+        { label: "Debt Mutual Funds (Low Risk)", pct: 10, color: "#93C5FD" },
+      ],
+      recs: [
+        "Start with Term Life Insurance (cover = 10-15x annual income) as your first priority",
+        "Open a PPF account — ₹500 to ₹1.5 lakh per year, fully safe with tax benefits",
+        "Keep 6 months of expenses in a Savings/FD account as emergency fund",
+        "Invest in Debt Mutual Funds via SIP for slightly better returns than FD",
+        "Consider NSC (National Savings Certificate) for guaranteed 5-year returns",
+      ]
+    },
+    M: {
+      label: "Moderate Investor",
+      emoji: "⚖️",
+      heroClass: "moderate",
+      desc: "You seek a balance between safety and growth. You can accept some market fluctuations in exchange for better long-term returns. This is the profile of a financially aware, goal-oriented investor.",
+      allocation: [
+        { label: "Equity Mutual Funds (SIP)", pct: 40, color: "#D97706" },
+        { label: "PPF / NPS / Insurance", pct: 30, color: "#F59E0B" },
+        { label: "Balanced/Hybrid Mutual Funds", pct: 20, color: "#FCD34D" },
+        { label: "FD / Emergency Fund", pct: 10, color: "#FDE68A" },
+      ],
+      recs: [
+        "Start SIP in Balanced Advantage or Hybrid Equity Funds — best of both worlds",
+        "Maintain PPF contributions for tax-free, guaranteed long-term savings",
+        "Children's education fund via ELSS Mutual Funds (tax saving + good returns)",
+        "Ensure life cover of at least 10x income via Term Insurance",
+        "Review portfolio every 6 months and rebalance if needed",
+      ]
+    },
+    A: {
+      label: "Aggressive Investor",
+      emoji: "🚀",
+      heroClass: "aggressive",
+      desc: "You are growth-focused and comfortable with market volatility over the long term. You understand that short-term dips are normal and part of long-term wealth creation. With discipline, this profile can build significant wealth.",
+      allocation: [
+        { label: "Equity Mutual Funds (Large/Mid/Small Cap)", pct: 60, color: "#059669" },
+        { label: "NPS (Tier 1 + Tier 2)", pct: 20, color: "#10B981" },
+        { label: "Index Funds / ETFs", pct: 15, color: "#34D399" },
+        { label: "Emergency Fund (FD)", pct: 5, color: "#A7F3D0" },
+      ],
+      recs: [
+        "Invest heavily via SIP in diversified equity funds — Large, Mid & Small Cap mix",
+        "Step up your SIP amount by 10-15% every year along with your salary hike",
+        "Use NPS Tier 1 for retirement corpus — additional ₹50,000 tax deduction available",
+        "Consider Index Funds for low-cost, market-matching long-term returns",
+        "Must have Term Life Insurance — even aggressive investors need this safety net",
+      ]
+    }
+  };
+
+  let answered = 0;
+
+  document.querySelectorAll('input[type=radio]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      const prevAnswered = answered;
+      answered = new Set(['q1','q2','q3','q4','q5'].filter(q => document.querySelector(`input[name="${q}"]:checked`))).size;
+      document.getElementById('progress-fill').style.width = (answered/5*100) + '%';
+      document.getElementById('progress-label').textContent = answered + ' of 5 questions answered';
+      document.getElementById('submit-btn').disabled = answered < 5;
+
+      radio.closest('.question-card').querySelectorAll('.option').forEach(o => o.classList.remove('selected'));
+      radio.closest('.option').classList.add('selected');
+    });
+  });
+
+  function getProfile() {
+    const scores = { C: 0, M: 0, A: 0 };
+    ['q1','q2','q3','q4','q5'].forEach(q => {
+      const val = document.querySelector(`input[name="${q}"]:checked`)?.value;
+      if (val) scores[val]++;
+    });
+    if (scores.A >= 3) return 'A';
+    if (scores.C >= 3) return 'C';
+    return 'M';
+  }
+
+  async function submitQuiz() {
+    const name = document.getElementById('name').value.trim();
+    const mobile = document.getElementById('mobile').value.trim();
+    if (!name || !mobile) { alert('Please fill in your Name and Mobile Number.'); return; }
+
+    const profileKey = getProfile();
+    const profile = profiles[profileKey];
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true; btn.textContent = 'Calculating your profile...';
+
+    const data = {
+      tool: 'Risk Profile Quiz',
+      timestamp: new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' }),
+      name, mobile,
+      school: document.getElementById('school').value,
+      age: document.getElementById('age').value,
+      salary: document.getElementById('salary').value,
+      q1: document.querySelector('input[name="q1"]:checked')?.value,
+      q2: document.querySelector('input[name="q2"]:checked')?.value,
+      q3: document.querySelector('input[name="q3"]:checked')?.value,
+      q4: document.querySelector('input[name="q4"]:checked')?.value,
+      q5: document.querySelector('input[name="q5"]:checked')?.value,
+      profile: profile.label
+    };
+
+    try {
+      await fetch(GOOGLE_SCRIPT_URL, {
+        method: 'POST', mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      document.getElementById('submitted-badge').style.display = 'block';
+    } catch(e) { /* offline — still show results */ }
+
+    showResults(profileKey);
+  }
+
+  function showResults(key) {
+    const p = profiles[key];
+    document.getElementById('quiz-screen').style.display = 'none';
+    const rs = document.getElementById('result-screen');
+    rs.style.display = 'block';
+
+    const hero = document.getElementById('result-hero');
+    hero.className = 'result-hero ' + p.heroClass;
+    document.getElementById('score-circle').textContent = p.emoji;
+    document.getElementById('result-title').textContent = p.label;
+    document.getElementById('result-desc').textContent = p.desc;
+
+    const bars = document.getElementById('allocation-bars');
+    bars.innerHTML = p.allocation.map(a =>
+      `<div class="allocation-bar">
+        <div class="alloc-label"><span>${a.label}</span><span>${a.pct}%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:${a.pct}%;background:${a.color}"></div></div>
+      </div>`
+    ).join('');
+
+    document.getElementById('rec-list').innerHTML = p.recs.map(r => `<li>${r}</li>`).join('');
+    rs.scrollIntoView({ behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
