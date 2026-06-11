@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>The Financial Clarity Audit — Inner Alchemy Wealth System</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --black:#0a0a0a;
+  --dark:#111111;
+  --card:#161616;
+  --border:#2a2a2a;
+  --border-light:#333;
+  --gold:#C9A84C;
+  --gold-light:#e8c97e;
+  --gold-dim:#8a6e2f;
+  --text:#f0ece4;
+  --muted:#7a7670;
+  --muted2:#9a9690;
+  --red:#c0392b;
+  --green:#2ecc71;
+  --green-dim:#1a6b3a;
+  --amber:#e0a030;
+}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--text);font-family:'Jost',sans-serif;font-weight:300;line-height:1.6;min-height:100vh}
+
+/* ─── HEADER ─── */
+.site-header{background:var(--dark);border-bottom:1px solid var(--border);padding:0}
+.header-top{display:flex;align-items:center;justify-content:space-between;padding:18px 40px;gap:20px}
+.brand{display:flex;align-items:center;gap:16px}
+.brand-monogram{width:48px;height:48px;border:1px solid var(--gold-dim);display:flex;align-items:center;justify-content:center;position:relative}
+.brand-monogram svg{width:32px;height:32px}
+.brand-text{}
+.brand-name{font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:400;letter-spacing:0.12em;color:var(--gold);text-transform:uppercase}
+.brand-sub{font-size:10px;letter-spacing:0.2em;color:var(--muted);text-transform:uppercase;margin-top:1px}
+.header-cta{display:flex;gap:10px;align-items:center;flex-shrink:0}
+.btn-wa{display:flex;align-items:center;gap:8px;background:#1a5c2a;color:#fff;border:none;padding:9px 18px;font-family:'Jost',sans-serif;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:background 0.2s}
+.btn-wa:hover{background:#23803a}
+.btn-contact{display:flex;align-items:center;gap:6px;background:transparent;color:var(--gold);border:1px solid var(--gold-dim);padding:9px 16px;font-family:'Jost',sans-serif;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:all 0.2s}
+.btn-contact:hover{background:var(--gold);color:var(--black)}
+.header-strip{background:var(--gold);padding:8px 40px;display:flex;align-items:center;justify-content:space-between}
+.strip-text{font-size:11px;letter-spacing:0.15em;color:var(--black);font-weight:500;text-transform:uppercase}
+.strip-right{font-size:11px;color:var(--black);font-weight:400}
+
+/* ─── HERO BANNER ─── */
+.hero{background:var(--dark);padding:56px 40px 52px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero-bg{position:absolute;right:-60px;top:-60px;width:420px;height:420px;opacity:0.06;pointer-events:none}
+.hero-tag{font-size:10px;letter-spacing:0.3em;color:var(--gold);text-transform:uppercase;margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.hero-tag::after{content:'';flex:1;max-width:80px;height:1px;background:var(--gold-dim)}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:56px;font-weight:300;line-height:1.05;color:var(--text);margin-bottom:8px}
+.hero-title em{font-style:italic;color:var(--gold)}
+.hero-title span{display:block;font-size:36px;letter-spacing:0.15em;font-style:normal;font-weight:400;color:var(--muted2);text-transform:uppercase}
+.hero-desc{max-width:540px;font-size:14px;color:var(--muted2);margin-top:20px;line-height:1.8;font-weight:300}
+.hero-meta{display:flex;gap:32px;margin-top:28px}
+.hero-stat{border-left:2px solid var(--gold-dim);padding-left:14px}
+.hero-stat-num{font-family:'Cormorant Garamond',serif;font-size:28px;color:var(--gold);font-weight:400}
+.hero-stat-label{font-size:10px;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase;margin-top:2px}
+
+/* ─── STEPS NAV ─── */
+.steps-nav{background:var(--dark);border-bottom:1px solid var(--border);padding:0 40px;display:flex;gap:0;overflow-x:auto}
+.step-tab{padding:16px 20px;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:all 0.2s;display:flex;align-items:center;gap:8px;background:none;border-top:none;border-left:none;border-right:none;font-family:'Jost',sans-serif}
+.step-tab:hover{color:var(--text)}
+.step-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.step-tab.done{color:var(--muted2)}
+.step-num{width:18px;height:18px;border:1px solid currentColor;display:inline-flex;align-items:center;justify-content:center;font-size:9px;flex-shrink:0;font-weight:500}
+.step-tab.done .step-num{background:var(--gold-dim);border-color:var(--gold-dim);color:var(--black)}
+.step-tab.active .step-num{background:var(--gold);border-color:var(--gold);color:var(--black)}
+
+/* ─── MAIN CONTENT ─── */
+.main{max-width:820px;margin:0 auto;padding:40px 40px 60px}
+.page{display:none}.page.active{display:block}
+
+/* ─── SECTION CARDS ─── */
+.scard{background:var(--card);border:1px solid var(--border);padding:28px;margin-bottom:20px}
+.scard-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--border)}
+.scard-title{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;color:var(--text)}
+.scard-tag{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold-dim);padding:3px 10px}
+
+/* ─── FORM ELEMENTS ─── */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.grid4{display:grid;grid-template-columns:1.6fr 1.1fr 0.85fr 0.85fr;gap:10px}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted)}
+.field input,.field select{
+  background:#1a1a1a;border:1px solid var(--border-light);color:var(--text);
+  padding:10px 12px;font-family:'Jost',sans-serif;font-size:13px;font-weight:300;
+  outline:none;transition:border 0.2s;width:100%;
+  -webkit-appearance:none;appearance:none
+}
+.field input:focus,.field select:focus{border-color:var(--gold-dim)}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%237a7670' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:30px}
+
+/* ─── GOAL ROWS ─── */
+.goal-block{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.goal-block:last-child{border:none;margin-bottom:0;padding-bottom:0}
+.goal-name{font-size:12px;letter-spacing:0.1em;color:var(--gold-light);text-transform:uppercase;margin-bottom:10px}
+.col-label{font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+
+/* ─── INSURANCE ─── */
+.ins-block{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.ins-block:last-child{border:none;margin:0;padding:0}
+.badge{display:inline-block;font-size:10px;letter-spacing:0.1em;text-transform:uppercase;padding:3px 10px;border:1px solid}
+.badge-ok{border-color:#2ecc71;color:#2ecc71}
+.badge-warn{border-color:var(--amber);color:var(--amber)}
+.badge-bad{border-color:var(--red);color:#e74c3c}
+.badge-opt{border-color:var(--muted);color:var(--muted)}
+
+/* ─── RESULT METRICS ─── */
+.metric-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.metric-box{background:#111;border:1px solid var(--border);padding:16px}
+.metric-label{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.metric-value{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:400}
+.mv-ok{color:var(--green)}
+.mv-warn{color:var(--amber)}
+.mv-bad{color:var(--red)}
+.mv-gold{color:var(--gold)}
+
+/* ─── SUMMARY TABLE ─── */
+.sum-row{display:flex;justify-content:space-between;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--border);gap:12px}
+.sum-row:last-child{border:none}
+.sum-left{font-size:12px;color:var(--muted2)}
+.sum-right{text-align:right}
+.sum-main{font-size:14px;font-weight:400;color:var(--text)}
+.sum-sub{font-size:11px;color:var(--muted);margin-top:2px}
+.sum-total{display:flex;justify-content:space-between;padding:14px 0 0;margin-top:4px}
+.sum-total-label{font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold)}
+.sum-total-value{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold)}
+
+/* ─── ADVISORY ─── */
+.adv-card{display:flex;gap:16px;padding:18px;margin-bottom:12px;border-left:2px solid;position:relative}
+.adv-card::before{content:'';position:absolute;inset:0;opacity:0.04;pointer-events:none}
+.adv1{border-color:#C9A84C;background:#161208}.adv1::before{background:#C9A84C}
+.adv2{border-color:#2ecc71;background:#0a160e}.adv2::before{background:#2ecc71}
+.adv3{border-color:#e0a030;background:#151008}.adv3::before{background:#e0a030}
+.adv4{border-color:#9b59b6;background:#120d15}.adv4::before{background:#9b59b6}
+.adv5{border-color:#3498db;background:#0a0f16}.adv5::before{background:#3498db}
+.adv-num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:300;line-height:1;flex-shrink:0;width:28px}
+.adv1 .adv-num{color:var(--gold-dim)}
+.adv2 .adv-num{color:#2ecc71}
+.adv3 .adv-num{color:var(--amber)}
+.adv4 .adv-num{color:#9b59b6}
+.adv5 .adv-num{color:#3498db}
+.adv-content{}
+.adv-title{font-size:12px;letter-spacing:0.15em;text-transform:uppercase;font-weight:500;margin-bottom:6px}
+.adv1 .adv-title{color:var(--gold)}
+.adv2 .adv-title{color:#2ecc71}
+.adv3 .adv-title{color:var(--amber)}
+.adv4 .adv-title{color:#9b59b6}
+.adv5 .adv-title{color:#3498db}
+.adv-body{font-size:13px;color:var(--muted2);line-height:1.75;font-weight:300}
+
+/* ─── SAVINGS RULE ─── */
+.rule-box{background:#111;border:1px solid var(--border);padding:20px;margin-top:16px}
+.rule-title{font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--muted);margin-bottom:14px}
+.rule-bar{display:flex;height:28px;gap:3px;margin-bottom:10px}
+.rule-seg{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:500;color:#000;letter-spacing:0.05em;transition:flex 0.5s}
+.rule-legend{display:flex;gap:20px;font-size:11px;color:var(--muted)}
+.rule-legend span{display:flex;align-items:center;gap:6px}
+.rule-legend i{width:10px;height:10px;display:inline-block;flex-shrink:0}
+.rule-note{font-size:12px;color:var(--muted2);margin-top:10px;line-height:1.6}
+
+/* ─── NAV BUTTONS ─── */
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:24px;padding-top:20px;border-top:1px solid var(--border)}
+.btn-next{background:var(--gold);color:var(--black);border:none;padding:12px 28px;font-family:'Jost',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:background 0.2s}
+.btn-next:hover{background:var(--gold-light)}
+.btn-back{background:transparent;color:var(--muted);border:1px solid var(--border-light);padding:12px 20px;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s}
+.btn-back:hover{color:var(--text);border-color:var(--muted)}
+
+/* ─── FOOTER ─── */
+.site-footer{background:var(--dark);border-top:1px solid var(--border);padding:32px 40px;margin-top:0}
+.footer-inner{max-width:820px;margin:0 auto;display:flex;justify-content:space-between;align-items:flex-start;gap:32px;flex-wrap:wrap}
+.footer-brand{}
+.footer-brand-name{font-family:'Cormorant Garamond',serif;font-size:16px;letter-spacing:0.12em;color:var(--gold);text-transform:uppercase}
+.footer-brand-sub{font-size:10px;letter-spacing:0.15em;color:var(--muted);text-transform:uppercase;margin-top:2px}
+.footer-contact{font-size:12px;color:var(--muted);line-height:1.9}
+.footer-contact a{color:var(--muted2);text-decoration:none}
+.footer-contact a:hover{color:var(--gold)}
+.footer-disc{font-size:10px;color:#4a4a46;margin-top:20px;max-width:820px;margin-left:auto;margin-right:auto;padding:0 40px 20px;line-height:1.7}
+
+/* ─── RESPONSIVE ─── */
+@media(max-width:640px){
+  .header-top{padding:16px 20px}
+  .hero{padding:36px 20px 32px}
+  .hero-title{font-size:38px}
+  .hero-title span{font-size:24px}
+  .steps-nav{padding:0 20px}
+  .main{padding:24px 20px 40px}
+  .metric-row{grid-template-columns:1fr 1fr}
+  .grid2{grid-template-columns:1fr}
+  .grid4{grid-template-columns:1fr 1fr}
+  .header-strip{padding:8px 20px;flex-direction:column;gap:4px;align-items:flex-start}
+  .site-footer{padding:24px 20px}
+  .footer-inner{flex-direction:column;gap:20px}
+  .footer-disc{padding:0 20px 20px}
+  .hero-meta{flex-wrap:wrap;gap:20px}
+}
+
+/* ─── DIVIDER ─── */
+.gold-divider{border:none;border-top:1px solid var(--border);margin:20px 0}
+.section-hint{font-size:11px;color:var(--muted);letter-spacing:0.05em;margin-bottom:16px;line-height:1.7}
+
+/* ─── GOAL PREVIEW ─── */
+#goal-preview{display:none}
+#ins-analysis{display:none}
+
+/* ─── PROGRESS INDICATOR ─── */
+.progress-wrap{background:var(--border);height:2px;width:100%}
+.progress-fill{height:2px;background:var(--gold);transition:width 0.4s}
+
+/* ─── CTA PANEL ─── */
+.cta-panel{background:linear-gradient(135deg,#161208 0%,#111 100%);border:1px solid var(--gold-dim);padding:28px;text-align:center;margin-top:20px}
+.cta-panel-title{font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold);margin-bottom:6px}
+.cta-panel-sub{font-size:12px;color:var(--muted2);margin-bottom:18px}
+.cta-btn-row{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+.btn-cta-gold{background:var(--gold);color:var(--black);border:none;padding:12px 24px;font-family:'Jost',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.btn-cta-outline{background:transparent;color:var(--gold);border:1px solid var(--gold-dim);padding:12px 24px;font-family:'Jost',sans-serif;font-size:11px;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:all 0.2s}
+.btn-cta-outline:hover{background:var(--gold);color:var(--black)}
+
+/* ─── EMAIL NOTICE ─── */
+.email-notice{background:#0f1208;border:1px solid #2a3018;padding:12px 16px;font-size:12px;color:var(--muted2);display:flex;align-items:flex-start;gap:10px;margin-top:16px}
+.email-notice svg{flex-shrink:0;margin-top:2px}
+</style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="site-header">
+  <div class="header-top">
+    <div class="brand">
+      <div class="brand-monogram">
+        <svg viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="16" cy="16" r="14" stroke="#C9A84C" stroke-width="0.8"/>
+          <circle cx="16" cy="16" r="9" stroke="#8a6e2f" stroke-width="0.6"/>
+          <path d="M8 16 Q16 6 24 16 Q16 26 8 16Z" stroke="#C9A84C" stroke-width="0.8" fill="none"/>
+          <circle cx="16" cy="16" r="2" fill="#C9A84C" opacity="0.7"/>
+        </svg>
+      </div>
+      <div class="brand-text">
+        <div class="brand-name">Inner Alchemy Wealth System</div>
+        <div class="brand-sub">Founder &amp; Advisor — Aditya Sinha &nbsp;·&nbsp; ARN 286556</div>
+      </div>
+    </div>
+    <div class="header-cta">
+      <a href="https://wa.me/917055020008" class="btn-wa" target="_blank">
+        <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp Us
+      </a>
+      <a href="mailto:sinha.aditya@live.com" class="btn-contact">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        Contact Advisor
+      </a>
+    </div>
+  </div>
+  <div class="header-strip">
+    <span class="strip-text">The Financial Clarity Audit — Know Where You Stand, Plan Where You're Going</span>
+    <span class="strip-right">SEBI Registered ARN: 286556</span>
+  </div>
+</header>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+  <svg class="hero-bg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="200" cy="200" r="180" stroke="#C9A84C" stroke-width="1"/>
+    <circle cx="200" cy="200" r="130" stroke="#C9A84C" stroke-width="0.6"/>
+    <circle cx="200" cy="200" r="80" stroke="#C9A84C" stroke-width="0.4"/>
+    <path d="M20 200 Q200 20 380 200 Q200 380 20 200Z" stroke="#C9A84C" stroke-width="0.8" fill="none"/>
+  </svg>
+  <div class="hero-tag">Inner Alchemy Wealth System</div>
+  <div class="hero-title">
+    <em>The</em> Financial<br/>Clarity
+    <span>Audit</span>
+  </div>
+  <p class="hero-desc">A structured self-assessment to evaluate your financial position against your goals — covering goal planning, savings gap, insurance security, and personalised advisory in 5 guided steps.</p>
+  <div class="hero-meta">
+    <div class="hero-stat">
+      <div class="hero-stat-num">5</div>
+      <div class="hero-stat-label">Steps</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">~8</div>
+      <div class="hero-stat-label">Minutes</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">Free</div>
+      <div class="hero-stat-label">Assessment</div>
+    </div>
+  </div>
+  <div class="progress-wrap" style="margin-top:28px">
+    <div class="progress-fill" id="progress-fill" style="width:20%"></div>
+  </div>
+</section>
+
+<!-- ═══ STEP TABS ═══ -->
+<nav class="steps-nav" id="steps-nav">
+  <button class="step-tab active" data-page="0"><span class="step-num">1</span>Profile</button>
+  <button class="step-tab" data-page="1"><span class="step-num">2</span>Goals</button>
+  <button class="step-tab" data-page="2"><span class="step-num">3</span>Savings</button>
+  <button class="step-tab" data-page="3"><span class="step-num">4</span>Insurance</button>
+  <button class="step-tab" data-page="4"><span class="step-num">5</span>Your Advisory</button>
+</nav>
+
+<!-- ═══ MAIN ═══ -->
+<main class="main">
+
+  <!-- PAGE 1: PROFILE -->
+  <div class="page active" id="page-0">
+    <div class="scard">
+      <div class="scard-header">
+        <span class="scard-title">Personal &amp; Financial Profile</span>
+        <span class="scard-tag">Step 1 of 5</span>
+      </div>
+      <p class="section-hint">All information is used solely to compute your personalised financial plan. No data is stored on any server.</p>
+      <div class="grid2" style="margin-bottom:16px">
+        <div class="field"><label>Full name</label><input id="name" placeholder="e.g. Rahul Mehta"/></div>
+        <div class="field"><label>Age (years)</label><input id="age" type="number" min="21" max="65" placeholder="35"/></div>
+        <div class="field"><label>Monthly gross income (₹)</label><input id="income" type="number" placeholder="80000"/></div>
+        <div class="field"><label>Monthly household expenses (₹)</label><input id="expenses" type="number" placeholder="50000"/></div>
+        <div class="field"><label>Child 1 — current age (0 if none)</label><input id="ch1age" type="number" min="0" max="20" placeholder="0"/></div>
+        <div class="field"><label>Child 2 — current age (0 if none)</label><input id="ch2age" type="number" min="0" max="20" placeholder="0"/></div>
+        <div class="field"><label>Email address</label><input id="email" type="email" placeholder="your@email.com"/></div>
+        <div class="field"><label>Target retirement age</label>
+          <select id="retage"><option value="55">55</option><option value="58">58</option><option value="60" selected>60</option><option value="62">62</option><option value="65">65</option></select>
+        </div>
+      </div>
+    </div>
+    <div class="nav-row">
+      <span style="font-size:11px;color:var(--muted);letter-spacing:0.1em">STEP 1 / 5</span>
+      <button class="btn-next" onclick="goTo(1)">Continue to Goals →</button>
+    </div>
+  </div>
+
+  <!-- PAGE 2: GOALS -->
+  <div class="page" id="page-1">
+    <div class="scard">
+      <div class="scard-header">
+        <span class="scard-title">Financial Goal Planning</span>
+        <span class="scard-tag">Step 2 of 5</span>
+      </div>
+      <p class="section-hint">Enter the present-day cost of each goal. Set to ₹0 for goals that don't apply. The tool will compute inflation-adjusted corpus and required monthly SIP.</p>
+      <div id="goal-rows"></div>
+      <hr class="gold-divider"/>
+      <div class="grid2">
+        <div class="field"><label>Expected average inflation (%)</label><input id="inflation" type="number" value="6" min="4" max="10"/></div>
+        <div class="field"><label>Expected MF / equity return (%)</label><input id="mf-return" type="number" value="12" min="8" max="18"/></div>
+      </div>
+    </div>
+    <div id="goal-preview">
+      <div class="scard">
+        <div class="scard-header"><span class="scard-title">Inflation-Adjusted Corpus &amp; SIP Requirements</span></div>
+        <div id="goal-results"></div>
+        <div class="sum-total">
+          <span class="sum-total-label">Total Monthly SIP Required</span>
+          <span class="sum-total-value" id="total-sip-display">—</span>
+        </div>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goTo(0)">← Back</button>
+      <button class="btn-next" onclick="calcGoals();goTo(2)">Calculate &amp; Continue →</button>
+    </div>
+  </div>
+
+  <!-- PAGE 3: SAVINGS -->
+  <div class="page" id="page-2">
+    <div class="scard">
+      <div class="scard-header">
+        <span class="scard-title">Current Savings &amp; Investments</span>
+        <span class="scard-tag">Step 3 of 5</span>
+      </div>
+      <p class="section-hint">Enter current market/surrender value of each instrument. This helps assess your existing corpus and gap to goals.</p>
+      <div id="savings-rows"></div>
+      <hr class="gold-divider"/>
+      <div class="grid2">
+        <div class="field"><label>Current monthly SIP (₹)</label><input id="cur-sip" type="number" value="0" placeholder="0"/></div>
+        <div class="field"><label>Monthly EPF / PF contribution (₹)</label><input id="cur-pf" type="number" value="0" placeholder="0"/></div>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goTo(1)">← Back</button>
+      <button class="btn-next" onclick="goTo(3)">Continue to Insurance →</button>
+    </div>
+  </div>
+
+  <!-- PAGE 4: INSURANCE -->
+  <div class="page" id="page-3">
+    <div class="scard">
+      <div class="scard-header">
+        <span class="scard-title">Financial Security — Insurance Assessment</span>
+        <span class="scard-tag">Step 4 of 5</span>
+      </div>
+      <p class="section-hint">Enter the sum assured / cover for each insurance type you currently hold. Enter ₹0 if not held. Required cover is benchmarked against your income.</p>
+      <div id="ins-rows"></div>
+    </div>
+    <div id="ins-analysis">
+      <div class="scard">
+        <div class="scard-header"><span class="scard-title">Insurance Gap Analysis</span></div>
+        <div id="ins-results"></div>
+      </div>
+    </div>
+    <div class="nav-row">
+      <button class="btn-back" onclick="goTo(2)">← Back</button>
+      <button class="btn-next" onclick="analyzeIns();goTo(4)">Get My Advisory →</button>
+    </div>
+  </div>
+
+  <!-- PAGE 5: ADVISORY -->
+  <div class="page" id="page-4">
+    <div class="scard">
+      <div class="scard-header">
+        <span class="scard-title">Financial Summary</span>
+        <span class="scard-tag">Your Report</span>
+      </div>
+      <div class="metric-row" id="summary-metrics"></div>
+      <div id="summary-header"></div>
+    </div>
+
+    <div class="scard">
+      <div class="scard-header">
+        <span class="scard-title">5-Point Personalised Advisory</span>
+        <span class="scard-tag">Inner Alchemy</span>
+      </div>
+      <div id="advisory-cards"></div>
+      <div class="rule-box" id="rule-box">
+        <div class="rule-title">Savings allocation guide — adapted for your age</div>
+        <div class="rule-bar" id="rule-bar"></div>
+        <div class="rule-legend" id="rule-legend">
+          <span><i style="background:#C9A84C"></i>Save / Invest</span>
+          <span><i style="background:#0F6E56"></i>Needs</span>
+          <span><i style="background:#185FA5"></i>Wants</span>
+        </div>
+        <p class="rule-note" id="rule-note"></p>
+      </div>
+      <div class="email-notice" id="email-notice">
+        <svg width="16" height="16" fill="none" stroke="#C9A84C" stroke-width="1.5" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        <span id="email-notice-text"></span>
+      </div>
+    </div>
+
+    <div class="cta-panel">
+      <div class="cta-panel-title">Ready to Act on Your Plan?</div>
+      <div class="cta-panel-sub">Book a free 30-minute financial clarity call with Aditya Sinha — no obligation, just clarity.</div>
+      <div class="cta-btn-row">
+        <a href="https://wa.me/917055020008?text=Hi%20Aditya%2C%20I%20completed%20the%20Financial%20Clarity%20Audit%20and%20would%20like%20to%20discuss%20my%20plan." class="btn-cta-gold" target="_blank">
+          <svg width="14" height="14" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp Aditya Now
+        </a>
+        <a href="mailto:sinha.aditya@live.com?subject=Financial Clarity Audit — I'd like to discuss my plan" class="btn-cta-outline">
+          Email for a Callback
+        </a>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn-back" onclick="goTo(3)">← Back</button>
+      <button class="btn-next" onclick="printReport()">Download / Print Report</button>
+    </div>
+  </div>
+
+</main>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="footer-brand-name">Inner Alchemy Wealth System</div>
+      <div class="footer-brand-sub">Transforming financial clarity into lasting wealth</div>
+    </div>
+    <div class="footer-contact">
+      <div><strong style="color:var(--gold-light);font-weight:400">Aditya Sinha</strong> — Founder &amp; Advisor</div>
+      <div>ARN: 286556</div>
+      <div><a href="mailto:sinha.aditya@live.com">sinha.aditya@live.com</a></div>
+      <div><a href="https://wa.me/917055020008">+91 70550 20008</a></div>
+    </div>
+    <div class="footer-contact">
+      <div style="color:var(--gold-light)">Quick Links</div>
+      <div><a href="https://wa.me/917055020008">Book a Free Consultation</a></div>
+      <div><a href="mailto:sinha.aditya@live.com">Send Your Assessment</a></div>
+      <div><a href="https://wa.me/917055020008?text=Hi%2C%20I%20need%20help%20with%20my%20financial%20plan">Get Personalised Plan</a></div>
+    </div>
+  </div>
+</footer>
+<div class="footer-disc">
+  Disclaimer: This tool is for educational and informational purposes only. Calculations are based on inputs provided and standard financial planning assumptions. This does not constitute investment advice. Please consult your financial advisor before making any investment decisions. Mutual fund investments are subject to market risks. Past performance is not indicative of future results. AMFI Registered Mutual Fund Distributor — ARN 286556.
+</div>
+
+<script>
+const CY = new Date().getFullYear();
+const GOALS = [
+  {id:'ch1edu',label:"Child 1 — Higher Education"},
+  {id:'ch2edu',label:"Child 2 — Higher Education"},
+  {id:'ch1mar',label:"Child 1 — Marriage"},
+  {id:'ch2mar',label:"Child 2 — Marriage"},
+  {id:'home',label:"Home Purchase / Down Payment"},
+  {id:'vehicle',label:"Vehicle"},
+  {id:'vacation',label:"Vacation / Travel Fund"},
+  {id:'retirement',label:"Retirement (monthly expense needed ₹)",monthly:true}
+];
+const SAVINGS = [
+  {id:'bank',label:'Bank FD / Savings',ret:5},
+  {id:'mf',label:'Mutual Funds (equity)',ret:12},
+  {id:'pf',label:'EPF / PF balance',ret:8},
+  {id:'ppf',label:'PPF balance',ret:7.1},
+  {id:'stocks',label:'Direct equity / shares',ret:12},
+  {id:'gold',label:'Gold / Sovereign Gold Bond',ret:8},
+  {id:'nps',label:'NPS corpus',ret:10},
+  {id:'other',label:'Other savings / investments',ret:7}
+];
+const INS_TYPES = [
+  {id:'term',label:'Term life insurance',calc:'income',mult:15},
+  {id:'health',label:'Health / mediclaim (family floater)',calc:'fixed',recommended:1500000},
+  {id:'critical',label:'Critical illness cover',calc:'fixed',recommended:2000000},
+  {id:'accident',label:'Personal accident cover',calc:'income',mult:5},
+  {id:'home_ins',label:'Home / property insurance',calc:'optional'}
+];
+let goalData={}, insData={};
+
+function fmt(n){return '₹'+Math.round(n).toLocaleString('en-IN')}
+function fv(pv,r,n){return pv*Math.pow(1+r/100,n)}
+function sipReq(fvt,rm,nm){if(rm===0)return fvt/nm;return fvt*rm/(Math.pow(1+rm,nm)-1)}
+
+function buildGoalRows(){
+  const ra=parseInt(document.getElementById('retage').value)||60;
+  const age=parseInt(document.getElementById('age').value)||35;
+  const c1=parseInt(document.getElementById('ch1age').value)||0;
+  const c2=parseInt(document.getElementById('ch2age').value)||0;
+  let h='<div style="display:grid;grid-template-columns:1.6fr 1.1fr 0.85fr 0.85fr;gap:10px;margin-bottom:8px">'
+    +'<div class="col-label">Goal</div><div class="col-label">Amount today (₹)</div>'
+    +'<div class="col-label">Target year</div><div class="col-label">Return %</div></div>';
+  GOALS.forEach(g=>{
+    let da=0,dy=CY+20;
+    if(g.id==='ch1edu'&&c1>0){dy=CY+(18-c1);da=1500000}
+    if(g.id==='ch2edu'&&c2>0){dy=CY+(18-c2);da=1500000}
+    if(g.id==='ch1mar'&&c1>0){dy=CY+(25-c1);da=2000000}
+    if(g.id==='ch2mar'&&c2>0){dy=CY+(25-c2);da=2000000}
+    if(g.id==='home'){dy=CY+5;da=3000000}
+    if(g.id==='vehicle'){dy=CY+3;da=1000000}
+    if(g.id==='vacation'){dy=CY+3;da=300000}
+    if(g.id==='retirement'){dy=CY+(ra-age);da=50000}
+    dy=Math.max(CY+1,dy);
+    h+=`<div class="goal-block">
+      <div class="goal-name">${g.label}</div>
+      <div style="display:grid;grid-template-columns:1.6fr 1.1fr 0.85fr 0.85fr;gap:10px">
+        <div></div>
+        <div class="field"><input id="g_${g.id}_amt" type="number" value="${da}" min="0"/></div>
+        <div class="field"><input id="g_${g.id}_yr" type="number" value="${dy}" min="${CY+1}" max="${CY+60}"/></div>
+        <div class="field"><input id="g_${g.id}_ret" type="number" value="12" min="5" max="18"/></div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('goal-rows').innerHTML=h;
+}
+
+function buildSavingsRows(){
+  let h='';
+  SAVINGS.forEach(s=>{
+    h+=`<div style="display:grid;grid-template-columns:1.6fr 1fr 0.7fr;gap:10px;margin-bottom:12px;align-items:end">
+      <div class="field"><label>${s.label}</label><input id="s_${s.id}_val" type="number" value="0" min="0"/></div>
+      <div class="field"><label>Current value (₹)</label><div style="font-size:11px;color:var(--muted);padding-top:6px">↑ enter above</div></div>
+      <div class="field"><label>Return %</label><input id="s_${s.id}_ret" type="number" value="${s.ret}" min="1" max="20"/></div>
+    </div>`;
+  });
+  // fix: simpler layout
+  h='';
+  SAVINGS.forEach(s=>{
+    h+=`<div style="display:grid;grid-template-columns:1.8fr 1fr 0.6fr;gap:10px;margin-bottom:10px;align-items:end">
+      <div class="field"><label>${s.label}</label><input id="s_${s.id}_val" type="number" value="0" min="0" placeholder="0"/></div>
+      <div style="font-size:11px;color:var(--muted);padding-bottom:4px;align-self:end">₹ current value</div>
+      <div class="field"><label>Ret %</label><input id="s_${s.id}_ret" type="number" value="${s.ret}" min="1" max="20"/></div>
+    </div>`;
+  });
+  document.getElementById('savings-rows').innerHTML=h;
+}
+
+function buildInsRows(){
+  let h='';
+  INS_TYPES.forEach(i=>{
+    h+=`<div class="ins-block">
+      <div class="goal-name" style="margin-bottom:8px">${i.label}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="field"><label>Sum assured / cover (₹)</label><input id="i_${i.id}_cov" type="number" value="0" min="0" placeholder="0"/></div>
+        <div class="field"><label>Annual premium (₹)</label><input id="i_${i.id}_prem" type="number" value="0" min="0" placeholder="0"/></div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('ins-rows').innerHTML=h;
+}
+
+function calcGoals(){
+  const infl=parseFloat(document.getElementById('inflation').value)||6;
+  let html='',totalSIP=0;
+  goalData={};
+  GOALS.forEach(g=>{
+    const amt=parseFloat(document.getElementById(`g_${g.id}_amt`).value)||0;
+    const yr=parseInt(document.getElementById(`g_${g.id}_yr`).value)||(CY+20);
+    const ret=parseFloat(document.getElementById(`g_${g.id}_ret`).value)||12;
+    const yrs=Math.max(1,yr-CY);
+    if(amt===0){goalData[g.id]={sip:0,corpus:0};return;}
+    let corpus,sip;
+    if(g.monthly){
+      const inflated=fv(amt,infl,yrs);
+      corpus=inflated*12*25;
+      sip=sipReq(corpus,ret/12/100,yrs*12);
+    } else {
+      corpus=fv(amt,infl,yrs);
+      sip=sipReq(corpus,ret/12/100,yrs*12);
+    }
+    goalData[g.id]={sip,corpus,yrs};
+    totalSIP+=sip;
+    html+=`<div class="sum-row">
+      <span class="sum-left">${g.label}</span>
+      <div class="sum-right">
+        <div class="sum-main">${fmt(corpus)}</div>
+        <div class="sum-sub">SIP: ${fmt(sip)}/mo · ${yrs} yrs · @${ret}% p.a.</div>
+      </div>
+    </div>`;
+  });
+  goalData._totalSIP=totalSIP;
+  document.getElementById('goal-results').innerHTML=html;
+  document.getElementById('total-sip-display').textContent=fmt(totalSIP)+'/month';
+  document.getElementById('goal-preview').style.display='block';
+}
+
+function analyzeIns(){
+  const income=parseFloat(document.getElementById('income').value)||60000;
+  const annual=income*12;
+  let html='';
+  insData={};
+  INS_TYPES.forEach(i=>{
+    const cov=parseFloat(document.getElementById(`i_${i.id}_cov`).value)||0;
+    const prem=parseFloat(document.getElementById(`i_${i.id}_prem`).value)||0;
+    let rec=0;
+    if(i.calc==='income') rec=annual*i.mult;
+    else if(i.calc==='fixed') rec=i.recommended;
+    const gap=Math.max(0,rec-cov);
+    const status=i.calc==='optional'?'opt':cov===0?'bad':(gap>rec*0.3?'warn':'ok');
+    insData[i.id]={cov,prem,rec,gap,status};
+    const badgeMap={ok:'<span class="badge badge-ok">Adequate</span>',warn:'<span class="badge badge-warn">Partial</span>',bad:'<span class="badge badge-bad">Not held</span>',opt:'<span class="badge badge-opt">Optional</span>'};
+    if(i.calc!=='optional')
+      html+=`<div class="sum-row">
+        <div><div class="sum-left" style="font-size:13px">${i.label}</div><div style="margin-top:6px">${badgeMap[status]}</div></div>
+        <div class="sum-right">
+          <div class="sum-main">${fmt(cov)} <span style="color:var(--muted);font-size:12px">held</span></div>
+          <div class="sum-sub">Required: ${fmt(rec)}</div>
+          ${gap>0?`<div style="color:#e74c3c;font-size:11px;margin-top:2px">Gap: ${fmt(gap)}</div>`:''}
+        </div>
+      </div>`;
+  });
+  document.getElementById('ins-results').innerHTML=html;
+  document.getElementById('ins-analysis').style.display='block';
+}
+
+function buildSummaryMetrics(){
+  const income=parseFloat(document.getElementById('income').value)||0;
+  const expenses=parseFloat(document.getElementById('expenses').value)||0;
+  const surplus=income-expenses;
+  const totalSIP=goalData._totalSIP||0;
+  const curSIP=parseFloat(document.getElementById('cur-sip').value)||0;
+  const cov=totalSIP>0?Math.min(100,Math.round((curSIP/totalSIP)*100)):100;
+  const gaps=Object.values(insData).filter(i=>i.status==='bad'||i.status==='warn').length;
+  document.getElementById('summary-metrics').innerHTML=[
+    {l:'Monthly surplus',v:fmt(surplus),c:surplus>0?'mv-ok':'mv-bad'},
+    {l:'SIP required',v:fmt(totalSIP),c:'mv-gold'},
+    {l:'SIP coverage',v:cov+'%',c:cov>=80?'mv-ok':cov>=50?'mv-warn':'mv-bad'},
+    {l:'Insurance gaps',v:gaps+(gaps===1?' item':' items'),c:gaps===0?'mv-ok':gaps<3?'mv-warn':'mv-bad'}
+  ].map(m=>`<div class="metric-box"><div class="metric-label">${m.l}</div><div class="metric-value ${m.c}">${m.v}</div></div>`).join('');
+  const nm=document.getElementById('name').value||'Client';
+  const ag=document.getElementById('age').value||'—';
+  document.getElementById('summary-header').innerHTML=`<div style="font-size:12px;color:var(--muted);letter-spacing:0.05em;margin-top:4px">Assessment for <span style="color:var(--gold-light)">${nm}</span> &nbsp;·&nbsp; Age ${ag} &nbsp;·&nbsp; Prepared ${new Date().toLocaleDateString('en-IN')} &nbsp;·&nbsp; <span style="color:var(--muted)">Inner Alchemy Wealth System</span></div>`;
+}
+
+function buildAdvisory(){
+  const age=parseInt(document.getElementById('age').value)||35;
+  const income=parseFloat(document.getElementById('income').value)||60000;
+  const expenses=parseFloat(document.getElementById('expenses').value)||40000;
+  const retAge=parseInt(document.getElementById('retage').value)||60;
+  const ytr=retAge-age;
+  const totalSIP=goalData._totalSIP||0;
+  const curSIP=parseFloat(document.getElementById('cur-sip').value)||0;
+  const sipGap=Math.max(0,totalSIP-curSIP);
+  const term=insData.term||{status:'bad',gap:income*12*15};
+  const health=insData.health||{status:'bad'};
+
+  const advs=[
+    {cls:'adv1',n:'01',t:'Insurance Requirement',
+     b:term.status!=='ok'
+       ?`Your term life cover appears ${term.status==='bad'?'absent':'insufficient'}. The benchmark is 15× your annual income — that's ${fmt(income*12*15)} for you. At age ${age}, a ₹1 Cr pure term plan costs just ₹800–1,200/month. ${health.status!=='ok'?'Your family also needs a floater health cover of at least ₹15–25 lakhs — this is non-negotiable. ':''}Critical illness cover of ₹20 lakhs protects your income if you're unable to work. Premiums rise sharply after 40 — act now.`
+       :`Your term insurance appears adequate. Ensure your family health floater is at least ₹15–25 lakhs. Review critical illness cover annually as your income grows. Consider a top-up / super top-up health plan for catastrophic coverage at low premium.`
+    },
+    {cls:'adv2',n:'02',t:'Savings Strategy — The Age-Adapted Allocation Rule',
+     b:age<35
+       ?`At ${age}, time is your greatest asset. Allocate aggressively: save/invest 30%, use 50% for needs, limit wants to 20%. Prioritise equity-heavy mutual funds via SIP. Even ₹5,000/month at 12% for 25 years grows to ₹94 lakhs. Start step-up SIPs — increase 10% each year. Avoid insurance-investment combos (ULIPs, endowment plans) — they underperform pure term + MF.`
+       :age<45
+       ?`At ${age}, balance is key. Target: 30% savings/investment, 50% needs, 20% wants. Begin shifting 10–15% of equity to balanced/hybrid funds. Use step-up SIPs — increase contributions 10% annually. Maximise 80C (ELSS + EPF + PPF). Consider NPS for extra ₹50,000 deduction (Section 80CCD1B). Your current savings rate should be at least ${fmt(income*0.25)}/month.`
+       :`At ${age} with ${ytr} years to retirement, increase savings intensity: 35% save/invest, 50% needs, 15% wants. Shift 20–30% of equity portfolio to debt/hybrid funds. Avoid new illiquid products. Maximise PPF and NPS. Target: build retirement corpus before you reach 55 for stress-free final years.`
+    },
+    {cls:'adv3',n:'03',t:'Goal SIP Gap — Your Action Point',
+     b:totalSIP>0
+       ?`Your total required monthly SIP across all goals is ${fmt(totalSIP)}. You are currently investing ${fmt(curSIP)}/month. ${sipGap>0?`You need to bridge a gap of ${fmt(sipGap)}/month. Start with what you can afford and increase 10% each year (step-up SIP). Even closing 60% of this gap in the next 12 months significantly improves your goal probability. Prioritise retirement and child education SIPs first.`:`Excellent — you are currently on track. Ensure your SIP allocation matches goal priority: child education first, then retirement, then marriage and others. Review annually.`}`
+       :`Define specific financial goals with target years and amounts — this is the foundation of wealth building. Use this tool to model your goals and identify the monthly SIP you need to start today. Early starters need far less per month than late starters.`
+    },
+    {cls:'adv4',n:'04',t:'Retirement Planning — Your 4-Step Blueprint',
+     b:`You have ${ytr} years to build your retirement corpus. Step 1: Estimate monthly expenses at retirement (today's value × inflation). Step 2: Target a corpus of 25–30× annual retirement expenses. Step 3: Enrol in NPS Tier 1 (extra ₹50,000 tax deduction) and maximise EPF. Step 4: ${ytr>15?`With ${ytr} years ahead, stay 70–80% equity in mutual funds — time smooths volatility.`:`With ${ytr} years, shift 30–40% to debt/hybrid funds for capital protection.`} Review your retirement corpus trajectory annually with your advisor.`
+    },
+    {cls:'adv5',n:'05',t:'Tax Efficiency &amp; Wealth Compounding',
+     b:`Maximise your ₹1.5L Section 80C limit (ELSS + EPF + PPF). Add ₹50,000 via NPS 80CCD(1B). Always invest in direct mutual fund plans — the ~0.5% annual saving in TER compounds massively over decades. Build an emergency fund of 3–6 months expenses (${fmt(expenses*6)}) in a liquid/overnight fund. Review and rebalance your portfolio annually — if equity drifts &gt;5% above target, trim and reinvest in debt. Consistency and time beat market timing every time.`
+    }
+  ];
+  document.getElementById('advisory-cards').innerHTML=advs.map(a=>
+    `<div class="adv-card ${a.cls}"><div class="adv-num">${a.n}</div><div class="adv-content"><div class="adv-title">${a.t}</div><div class="adv-body">${a.b}</div></div></div>`
+  ).join('');
+
+  const save=age<35?30:age<45?30:35;
+  const needs=50;
+  const wants=100-needs-save;
+  document.getElementById('rule-bar').innerHTML=
+    `<div class="rule-seg" style="flex:${needs};background:#0F6E56">${needs}% needs</div>`+
+    `<div class="rule-seg" style="flex:${wants};background:#185FA5">${wants}% wants</div>`+
+    `<div class="rule-seg" style="flex:${save};background:#C9A84C">${save}% save</div>`;
+  document.getElementById('rule-note').textContent=
+    `For age ${age}: Needs ${fmt(income*needs/100)}/mo · Wants ${fmt(income*wants/100)}/mo · Save/Invest ${fmt(income*save/100)}/mo minimum`;
+
+  const emailVal=document.getElementById('email').value;
+  document.getElementById('email-notice-text').innerHTML=emailVal
+    ?`A copy of this assessment summary will be sent to <strong>${emailVal}</strong> and to your advisor at <strong>sinha.aditya@live.com</strong> when you click "WhatsApp Aditya Now" or "Email for a Callback" above.`
+    :`Add your email in Step 1 to receive a copy. Your advisor Aditya Sinha (<strong>sinha.aditya@live.com</strong> · <strong>+91 70550 20008</strong>) is available to discuss this report.`;
+}
+
+function goTo(n){
+  if(n===1) buildGoalRows();
+  if(n===2) buildSavingsRows();
+  if(n===3) buildInsRows();
+  if(n===4){
+    if(!goalData._totalSIP) calcGoals();
+    analyzeIns();
+    buildSummaryMetrics();
+    buildAdvisory();
+  }
+  document.querySelectorAll('.page').forEach((p,i)=>p.classList.toggle('active',i===n));
+  document.querySelectorAll('.step-tab').forEach((b,i)=>{
+    b.classList.remove('active','done');
+    if(i===n) b.classList.add('active');
+    else if(i<n) b.classList.add('done');
+  });
+  const pct=Math.round(((n+1)/5)*100);
+  document.getElementById('progress-fill').style.width=pct+'%';
+  document.querySelector('.steps-nav').scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+document.getElementById('steps-nav').addEventListener('click',e=>{
+  const btn=e.target.closest('.step-tab');
+  if(btn) goTo(parseInt(btn.dataset.page));
+});
+
+function printReport(){
+  window.print();
+}
+</script>
+</body>
+</html>
